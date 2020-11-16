@@ -1,0 +1,49 @@
+version: "3"
+services: #or containers
+  tweet_container:
+    container_name: tweets_API
+    build: tweet_collector/
+    volumes:
+      - ./tweet_collector:/app
+    depends_on:
+      - mongo_container
+
+  pg_container:
+    image: postgres:13.0 #<--name of image on DockerHub directly!
+    container_name: postgres1
+    ports:
+      - 5555:5432
+      # Port OUTSIDE Container:Port INSIDE Container
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=1234
+
+  mongo_container:
+    image: mongo #<--name of image on DockerHub directly!
+    container_name: mongo1
+    volumes:
+      - ./mongodb:/data/db
+    ports:
+      - 27018:27017
+      # Port OUTSIDE Container:Port INSIDE Container
+
+  etl:
+    build: etl/
+    container_name: etl
+    volumes:
+      - ./etl:/app
+    depends_on:
+      - pg_container
+      - mongo_container
+      - tweet_container
+
+  slack:
+    build: slack_bot_1/
+    container_name: slack
+    volumes:
+      - ./slack_bot_1:/app
+    depends_on:
+      - pg_container
+      - mongo_container
+      - tweet_container
+      - etl
