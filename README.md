@@ -4,7 +4,7 @@ This project was cretaed during Spice Academy courses.
 
 Below the arhitecture of the pipeline.
 
-<img src="https://github.com/DanielaMorariu1990/Generate_image_captions/blob/main/pipeline.gif" width="700" height="350">
+<img src="https://github.com/DanielaMorariu1990/Generate_image_captions/blob/main/pipeline.PNG" width="700" height="350">
 
 Is composed of 5 containers:
 
